@@ -178,6 +178,4 @@ extraVolumeMounts: []
 #    readOnly: true
 
 extraArgs:
-  provider: keycloak-oidc
-  set-authorization-header: true
-  keycloak-group: keycloak-group
+  keycloakgroup: keycloak-group

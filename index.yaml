@@ -12,6 +12,16 @@ entries:
     version: 0.0.1
   jx-pipelines-visualizer-proxy:
   - apiVersion: v2
+    appVersion: 0.0.6
+    created: "2022-09-28T17:36:34.060964151Z"
+    description: Jenkins-X Custom charts
+    digest: ba1e291ccd078cc7cec224ba2d918a0d30f82aed6532e08d8c29b2d400708744
+    icon: https://raw.githubusercontent.com/jenkins-x/jenkins-x-website/master/images/logo/jenkinsx-icon-color.svg
+    name: jx-pipelines-visualizer-proxy
+    urls:
+    - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/jx-pipelines-visualizer-proxy-0.0.6/jx-pipelines-visualizer-proxy-0.0.6.tgz
+    version: 0.0.6
+  - apiVersion: v2
     appVersion: 0.0.5
     created: "2022-09-28T17:21:07.274735847Z"
     description: Jenkins-X Custom charts

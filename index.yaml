@@ -10,4 +10,13 @@ entries:
     urls:
     - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/empty-0.0.1-SNAPSHOT/empty-0.0.1-SNAPSHOT.tgz
     version: 0.0.1-SNAPSHOT
+  jenkins-x:
+  - apiVersion: v1
+    created: "2022-09-28T11:28:11.988802105Z"
+    description: Jenkins-X Custom charts
+    digest: 86965e7a6a235a1337f20c3d8305abd8db68b3431cc8b6dcff1b1018bad33224
+    name: jenkins-x
+    urls:
+    - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/jenkins-x-0.0.1-SNAPSHOT/jenkins-x-0.0.1-SNAPSHOT.tgz
+    version: 0.0.1-SNAPSHOT
 generated: "2022-09-28T11:18:55.559649518Z"

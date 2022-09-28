@@ -57,7 +57,7 @@ pod:
     OAUTH2_PROXY_SET_AUTHORIZATION_HEADER: true
     OAUTH2_PROXY_PASS_AUTHORIZATION_HEADER: true
     OAUTH2_PROXY_COOKIE_DOMAIN: keycloak.example.com
-    OAUTH2_PROXY_COOKIE_NAME: dashbord-jx.example.com
+    OAUTH2_PROXY_COOKIE_NAME: lighthouse-jx.example.com
     OAUTH2_PROXY_COOKIE_SECRET: PO4XaVDfUCc2hYPf1UtwWw==
     OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: true
     OAUTH2_PROXY_HTTP_ADDRESS: 0.0.0.0:4180
@@ -68,7 +68,7 @@ pod:
     OAUTH2_PROXY_CLIENT_SECRET: weejoh9lahs6ohz0peicieb3ohxeeHah
     OAUTH2_PROXY_COOKIE_REFRESH: 10m          
     OAUTH2_PROXY_COOKIE_EXPIRE: 1h      
-    OAUTH2_PROXY_REDIRECT_URL: https://dashbord-jx.example.com/oauth2/callback
+    OAUTH2_PROXY_REDIRECT_URL: https://lighthouse-jx.example.com/oauth2/callback
   envFrom: []
 service:
   port: 4180
@@ -89,14 +89,14 @@ ingress:
   pathType: "Prefix"
   path: /oauth2
 
-  secretname: tls-example-com-p
+  secretname: tls-c3xsrv-com-p
   hosts:
-    - dashbord-jx.example.com
+    - dashboard-jx.example.com
   tls:
     enabled: true
     secrets:
       hosts:
-        - dashbord-jx.example.com
+        - dashboard-jx.example.com
 
 istio:
   enabled: false

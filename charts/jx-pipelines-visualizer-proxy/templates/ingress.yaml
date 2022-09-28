@@ -1,0 +1,63 @@
+{{- if .Values.ingress.enabled -}}
+
+---
+apiVersion: {{ .Values.ingress.apiVersion }}
+kind: Ingress
+metadata:
+  name: {{ include "jxpipelines.fullname" . }}
+  labels:
+    {{- include "jxpipelines.labels" . | nindent 4 }}
+    {{- with .Values.ingress.labels }}
+      {{- tpl (toYaml .) $ | trim | nindent 4 }}
+    {{- end }}
+  {{- if or .Values.ingress.annotations .Values.ingress.class }}
+  annotations:
+    {{- with .Values.ingress.class }}
+    kubernetes.io/ingress.class: {{ . }}
+    {{- end }}
+    {{- with .Values.ingress.annotations }}
+      {{- tpl (toYaml .) $ | trim | nindent 4 }}
+    {{- end }}
+  {{- end }}
+spec:
+  rules:
+{{- if eq .Values.ingress.apiVersion "networking.k8s.io/v1beta1" }}
+  {{- range .Values.ingress.hosts }}
+  - host: {{ tpl . $ }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{ include "jxpipelines.fullname" $ }}
+          servicePort: http
+  {{- end }}
+{{- else }}
+  {{- $pathType := .Values.ingress.pathType | default "ImplementationSpecific" -}}
+  {{- $path  := .Values.ingress.path -}}
+  {{- $port  := .Values.service.port -}}
+  {{- range .Values.ingress.hosts }}
+  - host: {{ tpl . $ }}
+    http:
+      paths:
+      - pathType: {{ $pathType }}
+        {{- if eq $pathType "Prefix" }}
+        path: {{ $path | default "/" }}
+        {{- end }}
+        backend:
+          service:
+            name: {{ include "jxpipelines.fullname" $ }}
+            port:
+              number: {{ $port }}
+  {{- end }}
+{{- end }}
+
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+    - hosts:
+      {{- range $.Values.ingress.hosts }}
+      - {{ . }}
+      {{- end }}
+      secretName: "{{ .Values.ingress.secretname }}"
+  {{- end }}
+
+
+{{- end -}}

@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "jxpipelines.fullname" . }}
+  labels:
+    {{- include "jxpipelines.labels" . | nindent 4 }}
+    {{- with .Values.deployment.labels }}
+    {{ tpl (toYaml .) $ | trim | indent 4 }}
+    {{- end }}
+  {{- with .Values.deployment.annotations }}
+  annotations: {{- tpl (toYaml .) $ | trim | nindent 4 }}
+  {{- end }}
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  revisionHistoryLimit: {{ .Values.deployment.revisionHistoryLimit }}
+  selector:
+    matchLabels: {{- include "jxpipelines.labels.selector" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "jxpipelines.labels" . | nindent 8 }}
+        {{- with .Values.pod.labels }}
+        {{ tpl (toYaml .) $ | trim | indent 8 }}
+        {{- end }}
+      {{- with .Values.pod.annotations }}
+      annotations: {{- tpl (toYaml .) $ | trim | nindent 8 }}
+      {{- end }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        {{- with .Values.image.pullPolicy }}
+        imagePullPolicy: {{ . }}
+        {{- end }}
+        args:
+        {{- with .Values.extraArgs.keycloakgroup }}
+        - --keycloak-group
+        - {{ . }}
+        {{- end }}
+        {{- if .Values.pod.env }}
+        env:
+        - name: XDG_CONFIG_HOME
+          value: /home/jenkins
+        - name: GIT_SECRET_MOUNT_PATH
+          value: /secrets/git
+        {{- range $pkey, $pval := .Values.pod.env }}
+        - name: {{ $pkey }}
+          value: {{ quote $pval }}
+        {{- end }}
+        {{- end }}
+        {{- with .Values.pod.envFrom }}
+        envFrom:
+          {{- toYaml . | trim | nindent 10 }}
+        {{- end }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.service.port }}
+        livenessProbe:
+          tcpSocket:
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+        {{- if or .Values.gitSecretName .Values.extraVolumes }}
+        volumeMounts:
+        {{- if .Values.gitSecretName }}
+        - mountPath: /secrets/git
+          name: secrets-git
+        {{- end }}
+        {{- if .Values.extraVolumeMounts }}
+        {{ toYaml .Values.extraVolumeMounts | nindent 8 }}
+        {{- end }}
+        {{- end }}
+        {{- with .Values.pod.resources }}
+        resources: {{- toYaml . | trim | nindent 10 }}
+        {{- end }}
+      {{- with .Values.pod.securityContext }}
+      securityContext: {{- toYaml . | trim | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "jxpipelines.fullname" . }}
+      enableServiceLinks: {{ .Values.pod.enableServiceLinks }}
+      {{- with .Values.pod.activeDeadlineSeconds }}
+      activeDeadlineSeconds: {{ . }}
+      {{- end }}
+      {{- with .Values.pod.terminationGracePeriodSeconds }}
+      terminationGracePeriodSeconds: {{ . }}
+      {{- end }}
+      {{- with .Values.pod.affinity }}
+      affinity: {{- tpl (toYaml .) $ | trim | nindent 8 }}
+      {{- end }}
+      {{- with .Values.pod.nodeSelector }}
+      nodeSelector: {{- tpl (toYaml .) $ | trim | nindent 8 }}
+      {{- end }}
+      {{- with .Values.pod.tolerations }}
+      tolerations: {{- tpl (toYaml .) $ | trim | nindent 8 }}
+      {{- end }}
+      {{- with .Values.pod.hostAliases }}
+      hostAliases: {{- tpl (toYaml .) $ | trim | nindent 8 }}
+      {{- end }}
+      {{- with .Values.pod.schedulerName }}
+      schedulerName: {{ tpl . $ | trim }}
+      {{- end }}
+      {{- if or .Values.gitSecretName .Values.extraVolumes }}
+      volumes:
+      {{- if .Values.gitSecretName }}
+      - name: secrets-git
+        secret:
+          defaultMode: 420
+          secretName: {{ .Values.gitSecretName }}
+      {{- end }}
+      {{- if .Values.extraVolumes }}
+      {{- toYaml .Values.extraVolumes | nindent 6 }}
+      {{- end }}
+      {{- end }}

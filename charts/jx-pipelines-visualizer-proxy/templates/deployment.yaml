@@ -34,7 +34,7 @@ spec:
         {{- end }}
         args:
         {{- with .Values.extraArgs.keycloakgroup }}
-        - -keycloak-group
+        - --keycloak-group
         - {{ . }}
         {{- end }}
         {{- with .Values.config.namespace }}

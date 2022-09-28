@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  empty:
+  - apiVersion: v1
+    created: "2022-09-28T11:18:55.723591028Z"
+    description: A dummy empty chart
+    digest: cbf9a1f3b47baa9363efcbf147cf7a2243ecb511a48fb4c5ad908c80c0e895db
+    icon: https://avatars2.githubusercontent.com/u/47602533
+    name: empty
+    urls:
+    - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/empty-0.0.1-SNAPSHOT/empty-0.0.1-SNAPSHOT.tgz
+    version: 0.0.1-SNAPSHOT
+generated: "2022-09-28T11:18:55.559649518Z"

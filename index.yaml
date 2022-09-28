@@ -1,6 +1,15 @@
 apiVersion: v1
 entries:
   empty:
+  - apiVersion: v2
+    created: "2022-09-28T11:47:22.054273093Z"
+    description: A dummy empty chart
+    digest: 552bf43f679895be838203c1002879670eeb71b33078ec8576bb4937dcce148a
+    icon: https://avatars2.githubusercontent.com/u/47602533
+    name: empty
+    urls:
+    - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/empty-0.0.1/empty-0.0.1.tgz
+    version: 0.0.1
   - apiVersion: v1
     created: "2022-09-28T11:18:55.723591028Z"
     description: A dummy empty chart
@@ -11,6 +20,14 @@ entries:
     - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/empty-0.0.1-SNAPSHOT/empty-0.0.1-SNAPSHOT.tgz
     version: 0.0.1-SNAPSHOT
   jenkins-x:
+  - apiVersion: v2
+    created: "2022-09-28T11:47:22.180335109Z"
+    description: Jenkins-X Custom charts
+    digest: 477f58008fa4a198c18009e7df7eba08e954c71ab96402e995708e72365c5ddf
+    name: jenkins-x
+    urls:
+    - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/jenkins-x-0.0.1/jenkins-x-0.0.1.tgz
+    version: 0.0.1
   - apiVersion: v1
     created: "2022-09-28T11:28:11.988802105Z"
     description: Jenkins-X Custom charts

@@ -4,14 +4,6 @@ fullnameOverride:
 nameOverride:
 gitSecretName: tekton-git
 
-arguments:
-  - --provider
-  - keycloak-oidc
-  - --set-authorization-header
-  - true
-  - --keycloak-group
-  - keycloak-group
-
 config:
   # gs://BUCKET_NAME/jenkins-x/logs/{{.Owner}}/{{.Repository}}/{{if hasPrefix .Branch \"pr\"}}{{.Branch | upper}}{{else}}{{.Branch}}{{end}}/{{.Build}}.log
   archivedLogsURLTemplate:
@@ -184,3 +176,8 @@ extraVolumeMounts: []
 #  - name: config
 #    mountPath: /config
 #    readOnly: true
+
+extraArgs:
+  provider: keycloak-oidc
+  set-authorization-header: true
+  keycloak-group: keycloak-group

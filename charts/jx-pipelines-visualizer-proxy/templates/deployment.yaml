@@ -33,9 +33,13 @@ spec:
         imagePullPolicy: {{ . }}
         {{- end }}
         args:
-        {{  range .Values.arguments }}
-        - {{ . }}
-        {{ end }}
+        {{- range $key, $value := .Values.extraArgs }}
+            {{- if $value }}
+            - --{{ $key }}={{ $value }}
+            {{- else }}
+            - --{{ $key }}
+            {{- end }}
+        {{- end }}
         {{- with .Values.config.namespace }}
         - -namespace
         - {{ . }}

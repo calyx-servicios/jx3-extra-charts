@@ -1,0 +1,41 @@
+pod:
+  env:
+    OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY: true
+    OAUTH2_PROXY_SSL_UPSTREAM_INSECURE_SKIP_VERIFY: true
+    OAUTH2_PROXY_SET_AUTHORIZATION_HEADER: true
+    OAUTH2_PROXY_PASS_AUTHORIZATION_HEADER: true
+    OAUTH2_PROXY_COOKIE_DOMAIN: kubecloak.c3xsrv.com
+    OAUTH2_PROXY_COOKIE_NAME: lighthouse-jx.c3xsrv.com
+    OAUTH2_PROXY_COOKIE_SECRET: SayaL3wq8mkVrmwGpjGUaA==
+    OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: true
+    OAUTH2_PROXY_HTTP_ADDRESS: 0.0.0.0:4180
+    OAUTH2_PROXY_EMAIL_DOMAINS: "*"
+    OAUTH2_PROXY_PROVIDER: keycloak-oidc
+    OAUTH2_PROXY_OIDC_ISSUER_URL: https://keycloak.c3xsrv.com/realms/master
+    OAUTH2_PROXY_CLIENT_ID: jenkins-x
+    OAUTH2_PROXY_CLIENT_SECRET: lK5wqV4kxlluwkbQPYYaN7kcUZrQtHwF
+    OAUTH2_PROXY_COOKIE_REFRESH: 10m          
+    OAUTH2_PROXY_COOKIE_EXPIRE: 1h      
+    OAUTH2_PROXY_REDIRECT_URL: https://dashboard-jx.c3xsrv.com/oauth2/callback
+  
+
+ingress:
+  enabled: true
+  class: nginx
+
+  secretname: tls-c3xsrv-com-p
+  hosts:
+    - dashboard-jx.c3xsrv.com
+  tls:
+    enabled: true
+
+extraArgs:
+  keycloakgroup: tax-engine-backend
+
+  hosts:
+    - dashboard-jx.c3xsrv.com
+
+  tls:
+    secrets:
+      hosts:
+      - dashboard-jx.c3xsrv.com

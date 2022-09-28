@@ -33,6 +33,7 @@ spec:
 {{- else }}
   {{- $pathType := .Values.ingress.pathType | default "ImplementationSpecific" -}}
   {{- $path  := .Values.ingress.path -}}
+  {{- $port  := .Values.service.port -}}
   {{- range .Values.ingress.hosts }}
   - host: {{ tpl . $ }}
     http:
@@ -45,17 +46,17 @@ spec:
           service:
             name: {{ include "jxpipelines.fullname" $ }}
             port:
-              name: http
+              number: {{ $port }}
   {{- end }}
 {{- end }}
 
   {{- if .Values.ingress.tls.enabled }}
   tls:
-    secretName: "{{ .Values.ingress.secretname }}"
-    hosts:
-    {{- range $.Values.ingress.hosts }}
-    - {{ . }}
-    {{- end }}
+    - hosts:
+      {{- range $.Values.ingress.hosts }}
+      - {{ . }}
+      {{- end }}
+      secretName: "{{ .Values.ingress.secretname }}"
   {{- end }}
 
 

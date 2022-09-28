@@ -12,6 +12,16 @@ entries:
     version: 0.0.1
   jx-pipelines-visualizer-proxy:
   - apiVersion: v2
+    appVersion: 0.1.0
+    created: "2022-09-28T19:01:34.091968677Z"
+    description: Jenkins-X Custom charts
+    digest: b05ded854a6f4e8069e48acc8bcd82d1c46e1276266bb130b2d89d7dd59669cc
+    icon: https://raw.githubusercontent.com/jenkins-x/jenkins-x-website/master/images/logo/jenkinsx-icon-color.svg
+    name: jx-pipelines-visualizer-proxy
+    urls:
+    - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/jx-pipelines-visualizer-proxy-0.1.0/jx-pipelines-visualizer-proxy-0.1.0.tgz
+    version: 0.1.0
+  - apiVersion: v2
     appVersion: 0.0.9
     created: "2022-09-28T18:45:21.71516897Z"
     description: Jenkins-X Custom charts
@@ -89,5 +99,16 @@ entries:
     name: jx-pipelines-visualizer-proxy
     urls:
     - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/jx-pipelines-visualizer-proxy-0.0.1/jx-pipelines-visualizer-proxy-0.0.1.tgz
+    version: 0.0.1
+  lighthouse-webui-plugin-proxy:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2022-09-28T19:01:34.471699065Z"
+    description: Jenkins-X Custom charts
+    digest: ec57043df55e0974eebeda336b6c2ac3fdb38f3ade06230098e6815798c2a748
+    icon: https://raw.githubusercontent.com/jenkins-x/jenkins-x-website/master/images/logo/jenkinsx-icon-color.svg
+    name: lighthouse-webui-plugin-proxy
+    urls:
+    - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/lighthouse-webui-plugin-proxy-0.0.1/lighthouse-webui-plugin-proxy-0.0.1.tgz
     version: 0.0.1
 generated: "2022-09-28T11:18:55.559649518Z"

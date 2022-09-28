@@ -10,30 +10,15 @@ entries:
     urls:
     - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/empty-0.0.1/empty-0.0.1.tgz
     version: 0.0.1
-  - apiVersion: v1
-    created: "2022-09-28T11:18:55.723591028Z"
-    description: A dummy empty chart
-    digest: cbf9a1f3b47baa9363efcbf147cf7a2243ecb511a48fb4c5ad908c80c0e895db
-    icon: https://avatars2.githubusercontent.com/u/47602533
-    name: empty
-    urls:
-    - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/empty-0.0.1-SNAPSHOT/empty-0.0.1-SNAPSHOT.tgz
-    version: 0.0.1-SNAPSHOT
-  jenkins-x:
+  jx-pipelines-visualizer-proxy:
   - apiVersion: v2
-    created: "2022-09-28T11:47:22.180335109Z"
+    appVersion: latest
+    created: "2022-09-28T12:55:02.244384262Z"
     description: Jenkins-X Custom charts
-    digest: 477f58008fa4a198c18009e7df7eba08e954c71ab96402e995708e72365c5ddf
-    name: jenkins-x
+    digest: b6ea80c8308dd07dae358fa2ffcdfb00a89b5cd73a91d7309b55409d034339a9
+    icon: https://raw.githubusercontent.com/jenkins-x/jenkins-x-website/master/images/logo/jenkinsx-icon-color.svg
+    name: jx-pipelines-visualizer-proxy
     urls:
-    - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/jenkins-x-0.0.1/jenkins-x-0.0.1.tgz
+    - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/jx-pipelines-visualizer-proxy-0.0.1/jx-pipelines-visualizer-proxy-0.0.1.tgz
     version: 0.0.1
-  - apiVersion: v1
-    created: "2022-09-28T11:28:11.988802105Z"
-    description: Jenkins-X Custom charts
-    digest: 86965e7a6a235a1337f20c3d8305abd8db68b3431cc8b6dcff1b1018bad33224
-    name: jenkins-x
-    urls:
-    - https://github.com/calyx-servicios/jx3-extra-charts/releases/download/jenkins-x-0.0.1-SNAPSHOT/jenkins-x-0.0.1-SNAPSHOT.tgz
-    version: 0.0.1-SNAPSHOT
 generated: "2022-09-28T11:18:55.559649518Z"

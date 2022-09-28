@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Jenkins-X Custom charts
+name: jenkins-x
+version: 0.0.1-SNAPSHOT

@@ -29,16 +29,14 @@ spec:
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-        {{- with .Values.image.pullPolicy }}
-        imagePullPolicy: {{ . }}
-        {{- end }}
+        imagePullPolicy: Always
         args:
         {{- range $key, $value := .Values.extraArgs }}
-            {{- if $value }}
-            - --{{ $key }}={{ $value }}
-            {{- else }}
-            - --{{ $key }}
-            {{- end }}
+          {{- if $value }}
+          - --{{ $key }}={{ $value }}
+          {{- else }}
+          - --{{ $key }}
+          {{- end }}
         {{- end }}
         {{- with .Values.config.namespace }}
         - -namespace

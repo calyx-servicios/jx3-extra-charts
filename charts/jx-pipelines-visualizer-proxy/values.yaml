@@ -1,0 +1,186 @@
+# Default values for the Helm Chart
+
+fullnameOverride:
+nameOverride:
+gitSecretName: tekton-git
+
+arguments:
+  - --provider
+  - keycloak-oidc
+  - --set-authorization-header
+  - true
+  - --keycloak-group
+  - tax-engine-backend
+
+config:
+  # gs://BUCKET_NAME/jenkins-x/logs/{{.Owner}}/{{.Repository}}/{{if hasPrefix .Branch \"pr\"}}{{.Branch | upper}}{{else}}{{.Branch}}{{end}}/{{.Build}}.log
+  archivedLogsURLTemplate:
+  # gs://BUCKET_NAME/jenkins-x/logs/{{.Owner}}/{{.Repository}}/{{if hasPrefix .Branch \"pr\"}}{{.Branch | upper}}{{else}}{{.Branch}}{{end}}/{{.Build}}.yaml
+  archivedPipelinesURLTemplate:
+  # gs://BUCKET_NAME/jenkins-x/pipelineruns/{{.Namespace}}/{{.Name}}.yaml
+  archivedPipelineRunsURLTemplate:
+  # https://GRAFANA_URL/explore?left=%5B%22now%22,%22now%22,%22Tempo%22,%7B%22query%22:%22{{.TraceID}}%22%7D%5D
+  pipelineTraceURLTemplate:
+
+  # Set a fixed namespace if the visualizer should show pipelines only from selected namespace
+  #namespace: jx
+  resyncInterval: 60s
+  logLevel: INFO
+
+image:
+  repository: quay.io/oauth2-proxy/oauth2-proxy
+  # If no tag, fallback to the Chart's AppVersion
+  tag: latest
+  pullPolicy: Always
+
+deployment:
+  replicas: 1
+  revisionHistoryLimit: 2
+  labels: {}
+  annotations: {}
+
+pod:
+  resources:
+    requests:
+      cpu: "0.2"
+      memory: 128M
+    limits:
+      cpu: "1"
+      memory: 512M
+  labels: {}
+  annotations: {}
+  activeDeadlineSeconds:
+  enableServiceLinks: false
+  terminationGracePeriodSeconds:
+  affinity: {}
+  nodeSelector: {}
+  tolerations: []
+  hostAliases: []
+  schedulerName:
+  securityContext:
+    fsGroup: 1000
+  env:
+    OAUTH2_PROXY_SSL_INSECURE_SKIP_VERIFY: true
+    OAUTH2_PROXY_SSL_UPSTREAM_INSECURE_SKIP_VERIFY: true
+    OAUTH2_PROXY_SET_AUTHORIZATION_HEADER: true
+    OAUTH2_PROXY_PASS_AUTHORIZATION_HEADER: true
+    OAUTH2_PROXY_COOKIE_DOMAIN: kubecloak.c3xsrv.com
+    OAUTH2_PROXY_COOKIE_NAME: lighthouse-jx.c3xsrv.com
+    OAUTH2_PROXY_COOKIE_SECRET: SayaL3wq8mkVrmwGpjGUaA==
+    OAUTH2_PROXY_SKIP_PROVIDER_BUTTON: true
+    OAUTH2_PROXY_HTTP_ADDRESS: 0.0.0.0:4180
+    OAUTH2_PROXY_EMAIL_DOMAINS: "*"
+    OAUTH2_PROXY_PROVIDER: keycloak-oidc
+    OAUTH2_PROXY_OIDC_ISSUER_URL: https://keycloak.c3xsrv.com/realms/master
+    OAUTH2_PROXY_CLIENT_ID: jenkins-x
+    OAUTH2_PROXY_CLIENT_SECRET: lK5wqV4kxlluwkbQPYYaN7kcUZrQtHwF
+    OAUTH2_PROXY_COOKIE_REFRESH: 10m          
+    OAUTH2_PROXY_COOKIE_EXPIRE: 1h      
+    OAUTH2_PROXY_REDIRECT_URL: https://dashboard-jx.c3xsrv.com/oauth2/callback
+  envFrom: []
+service:
+  port: 4180
+  type: NodePort
+  loadBalancerIP:
+  labels: {}
+  annotations: {}
+
+ingress:
+  enabled: false
+  class: nginx
+  labels: {}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/proxy-buffer-size: 8k
+    nginx.ingress.kubernetes.io/proxy-buffers-number: '4'
+
+  apiVersion: "networking.k8s.io/v1"
+  pathType: "Prefix"
+  path: /oauth2
+
+  # hosts:
+  # - pipelines.example.com
+  # - pipelines.foo.bar
+  hosts:
+    - dashboard-jx.c3xsrv.com
+
+  # enables basic auth secret to be created
+  basicAuth:
+    enabled: false
+    authData: ""
+
+  tls:
+    enabled: true
+
+    # secrets:
+    #   embedded:
+    #     b64encodedCertificate: e30k
+    #     b64encodedCertificateKey: e30k
+    #     hosts:
+    #     - pipelines.example.com
+    #   existing-secret-name: {}
+    #   existing-secret-name-with-custom-hosts:
+    #     hosts:
+    #     - pipelines.foo.bar 
+    secrets:
+      hosts:
+      - dashboard-jx.c3xsrv.com
+
+istio:
+  enabled: false
+  apiVersion: networking.istio.io/v1beta1
+  gateway: jx-gateway
+
+jx:
+  # whether to create a Release CRD when installing charts with Release CRDs included
+  releaseCRD: true
+  
+serviceAccount:
+  # allow additional annotations to be added to the ServiceAccount
+  # such as for workload identity on clouds
+  annotations: {}
+
+role:
+  rules:
+  - apiGroups:
+    - jenkins.io
+    resources:
+    - pipelineactivities
+    - pipelinestructures
+    verbs:
+    - list
+    - watch
+    - get
+  - apiGroups:
+    - tekton.dev
+    resources:
+    - pipelineruns
+    - pipelines
+    verbs:
+    - list
+    - watch
+    - get
+  - apiGroups:
+    - ""
+    resources:
+    - pods
+    verbs:
+    - list
+    - watch
+    - get
+  - apiGroups:
+    - ""
+    resources:
+    - pods/log
+    verbs:
+    - get
+
+extraVolumes: []
+#  - name: config
+#    configMap:
+#      name: minio-certificate
+
+extraVolumeMounts: []
+#  - name: config
+#    mountPath: /config
+#    readOnly: true
